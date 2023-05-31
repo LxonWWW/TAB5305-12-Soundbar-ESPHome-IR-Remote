@@ -1,0 +1,104 @@
+esphome:
+  name: ir-blaster
+  friendly_name: ir_blaster
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "REPLACE_ME"
+
+ota:
+  password: "REPLACE_ME"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Ir-Blaster Fallback Hotspot"
+    password: "REPLACE_ME"
+
+remote_transmitter:
+  pin: 4
+  carrier_duty_percent: 50%
+
+button:
+  - platform: template
+    name: "On / Off"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10
+          command: 0xC7
+  - platform: template
+    name: "Mute"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10
+          command: 0xD
+  - platform: template
+    name: "Volume +"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10 #0x110
+          command: 0x10
+  - platform: template
+    name: "Volume -"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10
+          command: 0x11
+  - platform: template
+    name: "Media Previous"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10 #0x110
+          command: 0x21
+  - platform: template
+    name: "Media Next"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10 #0x110
+          command: 0x20
+  - platform: template
+    name: "Media Play/Pause"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10 #0x110
+          command: 0x2c
+  - platform: template
+    name: "Input Bluetooth"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10
+          command: 0x69
+  - platform: template
+    name: "Input HDMI"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10 #0x110
+          command: 0x87
+  - platform: template
+    name: "Input AUX"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10 #0x110
+          command: 0x6B
+  - platform: template
+    name: "Input OPTICAL"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10
+          command: 0x6C
+  - platform: template
+    name: "Equalizer Mode"
+    on_press:
+      - remote_transmitter.transmit_rc6:
+          address: 0x10
+          command: 0x51
